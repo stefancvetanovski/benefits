@@ -1,9 +1,19 @@
+using Api.Middleware;
+using Api.Repositories;
+using Api.Services;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+// Add Repositories as Singleton
+builder.Services.AddSingleton<IEmployeesRepository, EmployeeInMemoryRepository>();
+builder.Services.AddSingleton<IDependentsRepository, DependentInMemoryRepository>();
+
+// Add Services as Transient
+builder.Services.AddTransient<IEmployeesService, EmployeesService>();
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,6 +36,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
