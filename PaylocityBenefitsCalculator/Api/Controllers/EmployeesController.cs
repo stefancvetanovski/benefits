@@ -24,6 +24,13 @@ public class EmployeesController : ControllerBase
     {
         return await _employeesService.GetEmployeeByIdWithDependentsAsync(id);
     }
+    
+    [SwaggerOperation(Summary = "Get employee paycheck by employee id")]
+    [HttpGet("{id}/paycheck")]
+    public async Task<ActionResult<ApiResponse<GetEmployeePaycheckDto>>> GetPaycheck(int id)
+    {
+        return await _employeesService.GetEmployeePaycheckByEmployeeIdAsync(id);
+    }
 
     [SwaggerOperation(Summary = "Get all employees")]
     [HttpGet("")]

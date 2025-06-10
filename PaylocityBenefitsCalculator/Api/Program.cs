@@ -1,3 +1,4 @@
+using Api.Config;
 using Api.Middleware;
 using Api.Repositories;
 using Api.Services;
@@ -5,6 +6,8 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Add Repositories as Singleton
 builder.Services.AddSingleton<IEmployeesRepository, EmployeeInMemoryRepository>();
